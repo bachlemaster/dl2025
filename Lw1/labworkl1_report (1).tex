@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{titling}              
+\setlength{\droptitle}{-10em}      
+
+
+\title{Labwork Report 1: Gradient Descent Method}
+
+\begin{document}
+
+\maketitle
+
+\begin{flushleft}
+\textbf{Name:} Le Duc Bach \\
+\textbf{ID:} ICT.2440039
+\end{flushleft}
+
+\setlength\parindent{0pt}
+\section{Introduction}
+
+Gradient Descent is an iterative optimization algorithm used to locate the minimum of a function.\\
+It is widely used in machine learning, especially in algorithms like Linear Regression, to optimize the cost function by finding the parameter values that minimize the error between predicted and actual values.
+
+\section{Implementation}
+
+The Python implementation defines a function \textbf{perform\_gradient\_descent} that takes three parameters: \textbf{starting\_point}, \textbf{learning\_rate}, and \textbf{num\_iterations}.\\
+
+\textbf{Steps in the algorithm:}
+\begin{itemize}
+    \item Define the target function $f(x) = x^2$ and its derivative $f'(x) = 2x$
+    \item Start from an initial point and update $x$ using the gradient descent rule: $x = x - L \cdot f'(x)$, where $L$ is the learning rate
+    \item Repeat the update step in a loop for the specified number of iterations
+    \item After each step, display the current value of $x$ and $f(x)$
+    \item Finally, print the point where the function reaches its minimum and the corresponding function value
+\end{itemize}
+
+\section{Effect of Different Learning Rates}
+
+To evaluate how the learning rate impacts convergence, the function $f(x) = x^2$ was tested with various values of $L$:
+
+\begin{itemize}
+    \item \textbf{L = 0.1}: The value of $x$ decreases gradually and stays positive. The function value $f(x)$ decreases steadily.
+    \item \textbf{L = 1}: The algorithm alternates between $x = 10$ and $x = -10$, causing $f(x)$ to remain at 100.
+    \item \textbf{L = 2}: The updates to $x$ diverge as values swing between large positive and negative numbers. This leads to an increase in $f(x)$, indicating divergence.
+\end{itemize}
+
+\end{document}
