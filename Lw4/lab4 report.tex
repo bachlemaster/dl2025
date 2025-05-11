@@ -1,0 +1,99 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{float}
+
+\title{Labwork 4: Implementation of a Feedforward Neural Network}
+\author{Le Duc Bach -- ICT.2440039}
+\date{\today}
+
+\definecolor{codegray}{rgb}{0.95,0.95,0.95}
+\lstset{
+  backgroundcolor=\color{codegray},
+  basicstyle=\ttfamily\small,
+  frame=single,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  showstringspaces=false
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+This report outlines the implementation of a simple feedforward neural network using Python. The goal is to construct the fundamental components of a neural network, including neurons, layers, and the full network structure, using object-oriented programming principles.
+
+\section{Components}
+
+\subsection{Activation Function}
+The sigmoid function is used as the activation function for all neurons. It maps input values to the range $(0, 1)$ and is defined as:
+\[
+\sigma(z) = \frac{1}{1 + e^{-z}}
+\]
+Its derivative is used during training and is defined as:
+\[
+\sigma'(z) = \sigma(z) (1 - \sigma(z))
+\]
+
+\begin{lstlisting}[language=Python, caption=Sigmoid Functions]
+def sigmoid(z):
+    return 1 / (1 + math.exp(-z))
+
+def sigmoid_derivative(z):
+    return z * (1 - z)
+\end{lstlisting}
+
+\subsection{Neuron Class}
+Each neuron in the network computes the weighted sum of its inputs, adds a bias, and applies the sigmoid activation function.
+
+\begin{lstlisting}[language=Python, caption=Neuron Definition]
+class Neuron:
+    def __init__(self, weight=None, bias=None):
+        self.weight = weight
+        self.bias = bias
+
+    def activate(self, inputs):
+        z = sum([w * i for w, i in zip(self.weight, inputs)]) + self.bias
+        return sigmoid(z)
+\end{lstlisting}
+
+\subsection{Layer Class}
+A layer consists of multiple neurons. It receives inputs, activates each neuron, and returns the list of outputs.
+
+\begin{lstlisting}[language=Python, caption=Layer Definition]
+class Layer:
+    def __init__(self, neurons):
+        self.neurons = neurons
+
+    def activate(self, inputs):
+        return [neuron.activate(inputs) for neuron in self.neurons]
+
+    def forward(self, inputs):
+        return self.activate(inputs)
+\end{lstlisting}
+
+\subsection{NeuronNetwork Class}
+The `NeuronNetwork` class manages multiple layers. Inputs are passed through each layer sequentially using forward propagation.
+
+\begin{lstlisting}[language=Python, caption=Network Definition]
+class NeuronNetwork:
+    def __init__(self, layers):
+        self.layers = layers
+
+    def forward(self, inputs):
+        for layer in self.layers:
+            inputs = layer.forward(inputs)
+        return inputs
+\end{lstlisting}
+
+\section{Conclusion}
+This implementation demonstrates a minimal structure of a feedforward neural network. Although no training algorithm (e.g., backpropagation) is included, the object-oriented design allows for easy extension. Future work may include implementing learning mechanisms, more activation functions, and support for different layer types.
+
+\end{document}
